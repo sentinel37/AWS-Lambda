@@ -16,3 +16,6 @@ def lambda_handler(event, context):
 
                 ec2.start_instances(InstanceIds=id)
       
+
+    
+    
