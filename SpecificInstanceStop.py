@@ -10,7 +10,7 @@ def lambda_handler(event, context):
 
         for instance in reservation["Instances"]:
 
-            id="i-0e6a7b2841c1baaf6","i-066a1bd1440d0d535"
+            id="<instance id>","<instance id>"
 
             if instance["State"]["Name"]=="running":
 
