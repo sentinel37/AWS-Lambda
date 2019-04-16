@@ -52,7 +52,7 @@ sudo /usr/sbin/alternatives --set javac /usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bi
 sudo yum remove java-1.7
 sudo chkconfig jenkins on
 sudo service jenkins start
-sudo yum update –y
+sudo yum -y update
 #shutdown -h +2
 \"""
 
