@@ -20,8 +20,8 @@ Resources:
         - AssociatePublicIpAddress: "false"
           DeviceIndex: "0"
           SubnetId:             ###########
-      ImageId: 
-      InstanceType: 
+      ImageId:              ###########
+      InstanceType:              ###########
       Tags:
         -
           Key: "Name"
