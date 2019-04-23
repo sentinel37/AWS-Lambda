@@ -1,0 +1,66 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  KeyPairs:
+    Type: 'AWS::EC2::KeyPair::KeyName'
+    Default: Learning
+Resources:
+  ec2cfinstance0:                                  #####################
+    Type: AWS::EC2::Instance
+    Properties:
+      KeyName: !Ref KeyPairs
+      BlockDeviceMappings:
+        -
+          DeviceName: "/dev/sda1"
+          Ebs:
+            VolumeSize: 45
+            VolumeType: gp2
+      Monitoring: true
+      AvailabilityZone: us-east-1a                      #########
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: "false"
+          DeviceIndex: "0"
+          SubnetId:             ###########
+      ImageId: 
+      InstanceType: 
+      Tags:
+        -
+          Key: "Name"
+          Value: "mlms-prod-app-ihs-001"            ##################
+      UserData:
+        Fn::Base64: !Sub |
+            #!/bin/bash
+            growpart /dev/xvda 2
+            pvresize /dev/xvda2
+            lvresize -L +7G /dev/VolGroup00/homeVol
+            pvcreate /dev/xvdb
+            vgcreate VolGroup01 /dev/xvdb
+
+            lvcreate -L 40G -n ihs VolGroup01
+            mkfs.ext4 /dev/VolGroup01/ihs
+            mkdir /opt/ihs
+            echo /dev/mapper/VolGroup01-ihs   /opt/ihs  ext4  defaults,noatime,nofail 0 2 >> /etc/fstab
+
+
+  NewVolume0:                                          #######################
+    Type: 'AWS::EC2::Volume'
+    Properties:
+      Size: '100'
+      VolumeType: io1
+      Iops: '100'
+      AvailabilityZone: us-east-1a                       ##################
+      Tags:
+        -
+          Key: "Name"
+          Value: "mlms-prod-app-ihs-001 Volume"       ###################
+        -
+          Key: "Tag"
+          Value: "Group Deployment"
+
+  MountPoint0:                                            #############
+    Type: 'AWS::EC2::VolumeAttachment'
+    Properties:
+      InstanceId: !Ref ec2cfinstance0                       ##########
+      VolumeId: !Ref NewVolume0                            ##############
+      Device: /dev/xvdb
+
+################################################################################################################################
