@@ -25,7 +25,7 @@ Resources:
       Tags:
         -
           Key: "Name"
-          Value: "mlms-prod-app-ihs-001"            ##################
+          Value: "test-001"            ##################
       UserData:
         Fn::Base64: !Sub |
             #!/bin/bash
@@ -51,7 +51,7 @@ Resources:
       Tags:
         -
           Key: "Name"
-          Value: "mlms-prod-app-ihs-001 Volume"       ###################
+          Value: "test-vol"       ###################
         -
           Key: "Tag"
           Value: "Group Deployment"
